@@ -1,6 +1,6 @@
-# Netlify Full Stack Demo
+# Netlify Create Demo
 
-- Netlify Connect
 - Netlify Core
-- Stackbit
+- Netlify Create
 - NextJS
+- Contentful
