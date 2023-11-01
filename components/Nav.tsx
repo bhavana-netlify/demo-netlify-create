@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 interface Props {
@@ -9,7 +10,7 @@ const Nav: React.FC<Props> = ({}) => {
       <a className='font-bold' href="/">Netlify Create</a>
       <ul className='flex gap-4'>
         <li>
-          <a href="/about">about</a>
+          <Link href="/about">about</Link>
         </li>
       </ul>
     </div>
