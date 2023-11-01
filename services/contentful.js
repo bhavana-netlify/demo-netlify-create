@@ -2,6 +2,76 @@ const URL = `https://graphql.contentful.com/content/v1/spaces/${process.env.CONT
 
 const API_TOKEN = process.env.NODE_ENV === 'development' ? process.env.CONTENTFUL_PREVIEW_TOKEN : process.env.CONTENTFUL_DELIVERY_TOKEN
 
+export async function fetchPage(slug) {
+
+  const QUERY = `
+    query {
+      pageCollection(where: {
+        slug: "${slug}"
+      }, limit: 1, preview: ${process.env.NODE_ENV === 'development' ? 'true' : 'false'}) {
+        items {
+          sys {
+            id
+          }
+          title
+          sectionsCollection {
+            items {
+              __typename
+              ...on Hero {
+                sys {
+                  id
+                }
+                heading
+                body
+                button {
+                  sys {
+                    id
+                  }
+                  theme
+                  label
+                  url
+                }
+              }
+              ...on Stats {
+                sys {
+                  id
+                }
+                heading
+                body
+                statsCollection {
+                  items {
+                    sys {
+                      id
+                    }
+                    label
+                    value
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  try {
+    const req = await fetch(URL, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${API_TOKEN}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ query: QUERY, variables: {} })
+    })
+    const json = await req.json();
+
+    return json?.data?.pageCollection?.items?.[0] || {}
+  } catch (error) {
+    return []
+  }
+}
+
 export async function fetchPosts() {
 
   const QUERY = `

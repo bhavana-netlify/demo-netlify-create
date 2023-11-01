@@ -1,1 +1,1 @@
-npm run dev & stackbit dev
+ntl dev & stackbit dev
